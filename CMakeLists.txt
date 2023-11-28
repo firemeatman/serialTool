@@ -15,6 +15,7 @@ find_package(Qt6 COMPONENTS SerialPort REQUIRED)
 
 
 set(PROJECT_SOURCES
+
         main.cpp
         mainwindow.cpp
         mainwindow.h
@@ -25,6 +26,8 @@ set(PROJECT_SOURCES
         readThread.h
         readThread.cpp
         common/globalData.h
+        common/globalData.cpp
+        common/safe_memcpy.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

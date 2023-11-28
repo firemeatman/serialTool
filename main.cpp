@@ -1,15 +1,16 @@
 
-#include "mainwindow.h"
-
-#include <QApplication>
 #include "common/globalData.h"
+#include "mainwindow.h"
+#include <QApplication>
+
 void init();
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
-    MainWindow w;
     init();
+    MainWindow w;
     w.show();
     return a.exec();
 }

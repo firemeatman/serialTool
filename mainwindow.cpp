@@ -5,6 +5,7 @@
 #include <QToolBar>
 #include <QSerialPort>
 #include "common/globalData.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -50,7 +51,7 @@ void MainWindow::_on_sendPushButton_clicked()
     qint32 baudRate = settingToolBarWeiget->getBaudRate();
     float stopBit = settingToolBarWeiget->getStopBit();
     int vertifyBit = settingToolBarWeiget->getVertifyBit();
-    QString inputText = ui->textEdit_2->toPlainText();
+    QString inputText = ui->sendTextEdit->toPlainText();
     QSerialPortInfo portInfo = settingToolBarWeiget->getCurrentPort();
     qDebug()<<"波特率:"<<baudRate<<";"<<"停止位:"<<stopBit<<";"<<"校验:"<<vertifyBit<<";"<<"串口:"<<portInfo.portName()<<"\n";
     qDebug()<<"输入:"<<inputText;
@@ -59,6 +60,7 @@ void MainWindow::_on_sendPushButton_clicked()
     }
     if(serialPort == nullptr){
         serialPort = new QSerialPort(portInfo,this);
+        global_readThread->setPort(serialPort);
     }
 
     serialPort->setPort(portInfo);
@@ -82,6 +84,8 @@ void MainWindow::_on_sendPushButton_clicked()
 
 void MainWindow::_on_data_entered(char* data,int size)
 {
+    data[size] = 0;
+    ui->recvTextEdit->append(QString(data));
 
 }
 
