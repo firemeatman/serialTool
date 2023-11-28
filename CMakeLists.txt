@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 COMPONENTS SerialPort REQUIRED)
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -20,6 +22,9 @@ set(PROJECT_SOURCES
         settingToolBarWeiget.h
         settingToolBarWeige.cpp
         settingToolBarWeige.ui
+        readThread.h
+        readThread.cpp
+        common/globalData.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -46,6 +51,7 @@ else()
 endif()
 
 target_link_libraries(SerialTool PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(SerialTool PRIVATE Qt${QT_VERSION_MAJOR}::SerialPort)
 
 set_target_properties(SerialTool PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
