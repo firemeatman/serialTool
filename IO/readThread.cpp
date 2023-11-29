@@ -1,6 +1,6 @@
 
 #include "readThread.h"
-#include "common/safe_memcpy.h"
+#include "../common/safe_memcpy.h"
 
 ReadThread::ReadThread(QObject *parent, char* dataBuffer, int bufferSize, QSerialPort* port)
     : QThread{parent}
@@ -26,10 +26,9 @@ void ReadThread::run()
     int numRead = 0, numReadTotal = 0;
     char buffer[50];
     while(1){
+        this->taskMutex.lock();
         for (;;) {
-            portMutex.lock();
             if(!port){
-                portMutex.unlock();
                 sleep(100);
                 continue;
             }
@@ -40,11 +39,10 @@ void ReadThread::run()
                     safe_memcpy(dataBuffer, buffer, numReadTotal, dataBuffer, ((char*)dataBuffer)+bufferSize);
                     emit this->data_entered(buffer, numReadTotal);
                 }
-                portMutex.unlock();
                  break;
             }
-            portMutex.unlock();
         }
+        this->taskMutex.unlock();
     }
 
 }
@@ -56,8 +54,18 @@ QSerialPort *ReadThread::getPort() const
 
 void ReadThread::setPort(QSerialPort *newPort)
 {
-    portMutex.lock();
+    //portMutex.lock();
     port = newPort;
-    portMutex.unlock();
+    //portMutex.unlock();
+}
+
+void ReadThread::safe_lockTask()
+{
+    this->taskMutex.lock();
+}
+
+void ReadThread::safe_unlockTask()
+{
+    this->taskMutex.unlock();
 }
 

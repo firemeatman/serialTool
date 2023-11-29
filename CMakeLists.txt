@@ -20,14 +20,18 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        settingToolBarWeiget.h
-        settingToolBarWeige.cpp
-        settingToolBarWeige.ui
-        readThread.h
-        readThread.cpp
+        GUI/workWindow/workCentralWedgit.h GUI/workWindow/workCentralWedgit.cpp GUI/workWindow/workCentralWedgit.ui
+        GUI/workWindow/settingToolBarWeiget.h
+        GUI/workWindow/settingToolBarWeige.cpp
+        GUI/workWindow/settingToolBarWeige.ui
+        IO/readThread.h
+        IO/readThread.cpp
         common/globalData.h
         common/globalData.cpp
         common/safe_memcpy.h
+        GUI/leftToolBar.h
+        GUI/leftToolBar.cpp
+        GUI/leftToolBar.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

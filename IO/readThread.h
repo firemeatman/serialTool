@@ -17,6 +17,8 @@ public:
 
     QSerialPort *getPort() const;
     void setPort(QSerialPort *newPort);
+    void safe_lockTask();
+    void safe_unlockTask();
 
 signals:
     void data_entered(char* data,int size);
@@ -26,6 +28,7 @@ private:
     int bufferSize;
     QSerialPort* port;
     QMutex portMutex;
+    QMutex taskMutex;
 
 };
 

@@ -4,7 +4,7 @@
 
 #include <QMainWindow>
 
-#include "settingToolBarWeiget.h"
+#include "./GUI/workWindow/settingToolBarWeiget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,14 +26,9 @@ private slots:
 
     void on_actionabort_triggered();
 
-    void _on_sendPushButton_clicked();
-
-    void _on_data_entered(char* data,int size);
-
 private:
     Ui::MainWindow *ui;
     SettingToolBarWeiget* settingToolBarWeiget = nullptr;
-    QSerialPort* serialPort = nullptr;
 };
 
 #endif // MAINWINDOW_H

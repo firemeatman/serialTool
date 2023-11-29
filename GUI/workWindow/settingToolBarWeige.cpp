@@ -9,6 +9,7 @@ SettingToolBarWeiget::SettingToolBarWeiget(QWidget *parent) :
     ui->setupUi(this);
     this->resize(200,500);
     connect(ui->comboBox,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_baudRateComboBox);
+    connect(ui->dataBitComboBox,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_dataBitComboBox);
     connect(ui->comboBox_2,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_stopBitComboBox);
     connect(ui->comboBox_3,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_vertifyBitComboBox);
     connect(ui->portComboBox,&QComboBox::activated,this,&SettingToolBarWeiget::_on_PortComboBox_activated);
@@ -27,28 +28,43 @@ void SettingToolBarWeiget::_on_select_baudRateComboBox(int index)
     }else if(index == 1){
         baudRate = 14400;
     }
+    emit this->changed_portSetting();
+}
+
+void SettingToolBarWeiget::_on_select_dataBitComboBox(int index)
+{
+    if(index == 0){
+        dataBits = QSerialPort::Data8;
+    }else if(index == 1){
+        dataBits = QSerialPort::Data7;
+    }else{
+        dataBits = QSerialPort::Data6;
+    }
+    emit this->changed_portSetting();
 }
 
 void SettingToolBarWeiget::_on_select_stopBitComboBox(int index)
 {
     if(index == 0){
-        stopBit = 1;
+        stopBit = QSerialPort::OneStop;
     }else if(index == 1){
-        stopBit = 1.5;
+        stopBit = QSerialPort::OneAndHalfStop;
     }else{
-        stopBit = 2;
-}
+        stopBit = QSerialPort::TwoStop;
+    }
+    emit this->changed_portSetting();
 }
 
 void SettingToolBarWeiget::_on_select_vertifyBitComboBox(int index)
 {
     if(index == 0){
-        vertifyBit = 0;
+        vertifyBit = QSerialPort::NoParity;
     }else if(index == 1){
-        vertifyBit = 1;
+        vertifyBit = QSerialPort::EvenParity;
     }else{
-        vertifyBit = 2;
+        vertifyBit = QSerialPort::OddParity;
     }
+    emit this->changed_portSetting();
 }
 
 void SettingToolBarWeiget::_on_PortComboBox_activated(int index)
@@ -57,6 +73,7 @@ void SettingToolBarWeiget::_on_PortComboBox_activated(int index)
         return;
     }
     currentPort = avaiablePortList[index];
+    emit this->changed_portSetting();
 
 }
 
@@ -64,7 +81,10 @@ void SettingToolBarWeiget::_on_clicked_refrshButton()
 {
     QList<QSerialPortInfo> serialPortInfos = QSerialPortInfo::availablePorts();
     avaiablePortList = serialPortInfos;
-    ui->portComboBox->addItem("COM1");
+    int size = ui->portComboBox->count();
+    for(int i=size-1;i>=0;i--){
+        ui->portComboBox->removeItem(i);
+    }
     for (const QSerialPortInfo &portInfo : serialPortInfos) {
         qDebug() << "\n"
                  << "Port:" << portInfo.portName() << "\n"
@@ -82,4 +102,10 @@ void SettingToolBarWeiget::_on_clicked_refrshButton()
                          : QByteArray());
         ui->portComboBox->addItem(portInfo.portName());
     }
+    if(!avaiablePortList.isEmpty()){
+        currentPort = avaiablePortList[0];
+        emit this->changed_portSetting();
+    }
+
+
 }

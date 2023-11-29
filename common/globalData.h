@@ -2,7 +2,7 @@
 #ifndef GLOBALDATA_H
 #define GLOBALDATA_H
 
-#include "../readThread.h"
+#include "../IO/readThread.h"
 
 extern ReadThread* global_readThread;
 
