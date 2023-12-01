@@ -27,6 +27,11 @@ void ReadThread::run()
     char buffer[50];
     while(1){
         this->taskMutex.lock();
+        if(!this->is_open){
+            this->taskMutex.unlock();
+            sleep(100);
+            continue;
+        }
         for (;;) {
             if(!port){
                 sleep(100);
@@ -36,8 +41,7 @@ void ReadThread::run()
             numReadTotal += numRead;
             if (numRead == 0 && !port->waitForReadyRead(500)){
                 if(numReadTotal != 0){
-                    safe_memcpy(dataBuffer, buffer, numReadTotal, dataBuffer, ((char*)dataBuffer)+bufferSize);
-                    emit this->data_entered(buffer, numReadTotal);
+                    emit this->data_entered(new QByteArray(buffer), numReadTotal);
                 }
                  break;
             }
@@ -66,6 +70,18 @@ void ReadThread::safe_lockTask()
 
 void ReadThread::safe_unlockTask()
 {
+    this->taskMutex.unlock();
+}
+
+bool ReadThread::getIs_open() const
+{
+    return is_open;
+}
+
+void ReadThread::setIs_open(bool newIs_open)
+{
+    this->taskMutex.lock();
+    is_open = newIs_open;
     this->taskMutex.unlock();
 }
 

@@ -20,14 +20,17 @@ public:
     void safe_lockTask();
     void safe_unlockTask();
 
+    bool getIs_open() const;
+    void setIs_open(bool newIs_open);
+
 signals:
-    void data_entered(char* data,int size);
+    void data_entered(QByteArray* data,int size);
 
 private:
     char* dataBuffer;
     int bufferSize;
     QSerialPort* port;
-    QMutex portMutex;
+    bool is_open = false;
     QMutex taskMutex;
 
 };

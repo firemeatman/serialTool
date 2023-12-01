@@ -2,6 +2,7 @@
 #include "ui_settingToolBarWeige.h"
 #include <QDebug>
 #include <QToolButton>
+#include "../../common/globalData.h"
 SettingToolBarWeiget::SettingToolBarWeiget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SettingToolBarWeiget)
@@ -13,7 +14,7 @@ SettingToolBarWeiget::SettingToolBarWeiget(QWidget *parent) :
     connect(ui->comboBox_2,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_stopBitComboBox);
     connect(ui->comboBox_3,&QComboBox::activated,this,&SettingToolBarWeiget::_on_select_vertifyBitComboBox);
     connect(ui->portComboBox,&QComboBox::activated,this,&SettingToolBarWeiget::_on_PortComboBox_activated);
-    connect(ui->refrshButton,&QAbstractButton::clicked,this,&SettingToolBarWeiget::_on_clicked_refrshButton);
+    connect(ui->changePortButton,&QAbstractButton::clicked,this,&SettingToolBarWeiget::_on_clicked_changePortButton);
 }
 
 SettingToolBarWeiget::~SettingToolBarWeiget()
@@ -107,5 +108,17 @@ void SettingToolBarWeiget::_on_clicked_refrshButton()
         emit this->changed_portSetting();
     }
 
+
+}
+
+void SettingToolBarWeiget::_on_clicked_changePortButton()
+{
+    if(global_readThread->getIs_open()){
+        global_readThread->setIs_open(false);
+        ui->portStateLabel->setText("端口：关闭");
+    }else{
+        global_readThread->setIs_open(true);
+        ui->portStateLabel->setText("端口：开启");
+    }
 
 }

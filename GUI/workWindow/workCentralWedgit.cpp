@@ -15,6 +15,8 @@ WorkCentralWedgit::WorkCentralWedgit(QWidget *parent, SettingToolBarWeiget* sett
     connect(ui->sendButton, &QPushButton::clicked, this, &WorkCentralWedgit::_on_sendPushButton_clicked);
     connect(global_readThread, &ReadThread::data_entered, this, &WorkCentralWedgit::_on_data_entered);
     connect(settingToolBarWeiget, &SettingToolBarWeiget::changed_portSetting, this, &WorkCentralWedgit::_on_changed_portSetting);
+    connect(ui->encodeComboBox_1, &QComboBox::activated, this, &WorkCentralWedgit::_on_select_data_codeComboBox);
+    connect(ui->encodeComboBox_2, &QComboBox::activated, this, &WorkCentralWedgit::_on_select_send_codeComboBox);
 }
 
 WorkCentralWedgit::~WorkCentralWedgit()
@@ -43,12 +45,12 @@ void WorkCentralWedgit::_on_sendPushButton_clicked()
 
 }
 
-void WorkCentralWedgit::_on_data_entered(char* data,int size)
+void WorkCentralWedgit::_on_data_entered(QByteArray* data,int size)
 {
     data[size] = 0;
     ui->recvTextEdit->append("\n\r[target]:");
-    ui->recvTextEdit->append(QString(data));
-
+    ui->recvTextEdit->append(QString(*data));
+    delete data;
 }
 
 void WorkCentralWedgit::_on_changed_portSetting()
@@ -74,6 +76,22 @@ void WorkCentralWedgit::_on_changed_portSetting()
     serialPort->setStopBits(stopBit);
     serialPort->setParity(vertifyBit);
     global_readThread->safe_unlockTask();
+}
+
+void WorkCentralWedgit::_on_select_data_codeComboBox(int index)
+{
+    if(index == 0){
+
+    }else if(index == 1){
+
+    }else if(index == 2){
+
+    }
+}
+
+void WorkCentralWedgit::_on_select_send_codeComboBox(int index)
+{
+
 }
 
 

@@ -24,14 +24,15 @@ set(PROJECT_SOURCES
         GUI/workWindow/settingToolBarWeiget.h
         GUI/workWindow/settingToolBarWeige.cpp
         GUI/workWindow/settingToolBarWeige.ui
+        GUI/leftToolBar.h
+        GUI/leftToolBar.cpp
+        GUI/leftToolBar.ui
         IO/readThread.h
         IO/readThread.cpp
         common/globalData.h
         common/globalData.cpp
         common/safe_memcpy.h
-        GUI/leftToolBar.h
-        GUI/leftToolBar.cpp
-        GUI/leftToolBar.ui
+        Data/serialMessage.h Data/serialMessage.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

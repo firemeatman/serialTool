@@ -34,6 +34,9 @@ public:
     QSerialPort::Parity getVertifyBit() const;
     void setVertifyBit(const QSerialPort::Parity &newVertifyBit);
 
+    bool getIs_serial_open() const;
+    void setIs_serial_open(bool newIs_serial_open);
+
 private:
     Ui::SettingToolBarWeiget *ui;
     int baudRate = 9600;
@@ -53,6 +56,7 @@ public slots:
     void _on_select_vertifyBitComboBox(int index);
     void _on_PortComboBox_activated(int index);
     void _on_clicked_refrshButton();
+    void _on_clicked_changePortButton();
 
 };
 
@@ -117,5 +121,7 @@ inline void SettingToolBarWeiget::setVertifyBit(const QSerialPort::Parity &newVe
 {
     vertifyBit = newVertifyBit;
 }
+
+
 
 #endif // SETTINGTOOLBARWEIGET_H
